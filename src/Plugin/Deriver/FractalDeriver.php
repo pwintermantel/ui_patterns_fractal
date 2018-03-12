@@ -91,6 +91,7 @@ class FractalDeriver extends LibraryDeriver {
    *
    */
   private function getFields($content) {
+
     // The context data to pass to the template when rendering previews.
     $fields = [];
     foreach ($content['context'] as $field => $preview) {
@@ -99,8 +100,28 @@ class FractalDeriver extends LibraryDeriver {
         "preview" => $preview,
       ];
     }
-    // TODO: Default variant.
+
+    // Default variant is overriding values from context.
+    // Context data defined at the component level will cascade down to all
+    // the variants of that component.
+    // If you don’t want to use the name ‘default’, you can specify the name of
+    // the variant to be used as the default variant by using the default property.
     // https://fractal.build/guide/components/variants#the-default-variant
+    $default = isset($content['default']) ? $content['default'] : "default";
+    foreach ($content['variants'] as $variant) {
+      if ($variant["name"] == $default) {
+        foreach ($variant['context'] as $field => $preview) {
+          $fields[$field] = [
+            "label" => $field,
+            "preview" => $preview,
+          ];
+        }
+      }
+    }
+
+    // Remove illegal attributes field.
+    unset($fields['attributes']);
+
     return $fields;
   }
 
