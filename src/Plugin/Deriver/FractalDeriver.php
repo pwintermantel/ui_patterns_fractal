@@ -70,7 +70,7 @@ class FractalDeriver extends LibraryDeriver {
 
         // Set other pattern values.
         $definition['label'] = $content["title"];
-        $definition['description'] = $this->getDescription($content, $base_path);
+        $definition['description'] = $this->getDescription($content, $absolute_base_path);
         $definition['tags'] = $content["tags"];
         $definition['fields'] = $this->getFields($content);
         $definition['libraries'] = $this->getLibraries($id, $absolute_base_path);
