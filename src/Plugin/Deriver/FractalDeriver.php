@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns_fractal\Plugin\Deriver;
 
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Component\Serialization\Json;
 use Drupal\ui_patterns_library\Plugin\Deriver\LibraryDeriver;
 
 /**
@@ -52,10 +53,11 @@ class FractalDeriver extends LibraryDeriver {
           $content = file_get_contents($file_path);
           $content = Yaml::decode($content);
         }
-        if (preg_match('/\.json$/', $file_path)) {
-          // TODO: JSON parsing.
+        elseif (preg_match('/\.json$/', $file_path)) {
+          $content = file_get_contents($file_path);
+          $content = Json::decode($content);
         }
-        if (preg_match('/\.js$/', $file_path)) {
+        elseif (preg_match('/\.js$/', $file_path)) {
           // TODO: Common JS parsing.
         }
         if (empty($content)) {
