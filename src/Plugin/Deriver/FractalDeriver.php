@@ -71,9 +71,18 @@ class FractalDeriver extends LibraryDeriver {
         $definition['provider'] = $provider;
 
         // Set other pattern values.
-        $definition['label'] = $content["title"];
+        # The label is typically displayed in any UI navigation items that
+        # refer to the component. Defaults to a title-cased version of the
+        # component name if not specified.
+        $label = isset($content['label']) ? $content['label'] : ucwords(urldecode($id));
+        # The title of a component is typically what is displayed at the top
+        # of any pages related to the component. Defaults to the same as the
+        # label if not specified.
+        $definition['label'] = isset($content['title']) ? $content['title'] : $label;
         $definition['description'] = $this->getDescription($content, $absolute_base_path);
-        $definition['tags'] = $content["tags"];
+        # An array of tags to add to the component.
+        # Can be used by plugins and tasks to filter components.
+        $definition['tags'] = isset($content['tags']) ? $content['tags'] : [];
         $definition['fields'] = $this->getFields($content);
         $definition['libraries'] = $this->getLibraries($id, $absolute_base_path);
 
